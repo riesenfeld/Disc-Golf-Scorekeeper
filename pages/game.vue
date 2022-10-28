@@ -63,6 +63,9 @@ export default {
       },
     }
   },
+  head: {
+    title: 'Game',
+  },
   computed: {
     currentGame() {
       return this.$store.getters.getCurrentGame

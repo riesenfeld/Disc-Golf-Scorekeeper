@@ -7,6 +7,9 @@
 <script>
 export default {
   name: 'HistoryPage',
+  head: {
+    title: 'History',
+  },
   computed: {
     gameHistory() {
       return this.$store.getters.getGameHistory

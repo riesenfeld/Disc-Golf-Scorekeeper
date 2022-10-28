@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - disc-golf-scorekeeper',
-    title: 'disc-golf-scorekeeper',
+    titleTemplate: '%s | Disc Golf Scorekeeper',
+    title: 'Disc Golf Scorekeeper',
     htmlAttrs: {
       lang: 'en',
     },

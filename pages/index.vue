@@ -95,6 +95,9 @@
 <script>
 export default {
   name: 'IndexPage',
+  head: {
+    title: 'Home',
+  },
   computed: {
     currentGameStatus() {
       return this.$store.getters.getCurrentGameStatus

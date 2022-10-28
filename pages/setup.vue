@@ -13,6 +13,9 @@ export default {
   data() {
     return {}
   },
+  head: {
+    title: 'Setup',
+  },
   computed: {
     currentGameStatus() {
       return this.$store.getters.getCurrentGameStatus
