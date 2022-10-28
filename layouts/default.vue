@@ -37,9 +37,10 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
+      <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <div data-netlify-identity-button></div>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -86,6 +87,16 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Disc Golf Scorekeeper',
+    }
+  },
+  created() {
+    if (process.client) {
+      // eslint-disable-next-line no-undef
+      const user = netlifyIdentity.currentUser()
+
+      console.log(user)
+      // eslint-disable-next-line no-undef
+      console.log(netlifyIdentity)
     }
   },
 }
