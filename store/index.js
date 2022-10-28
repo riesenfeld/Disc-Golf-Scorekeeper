@@ -3,6 +3,7 @@ export const state = () => ({
   currentGame: {},
   currentGameStatus: false,
   gameHistory: [],
+  loggedInStatus: false,
 })
 
 export const getters = {
@@ -14,6 +15,9 @@ export const getters = {
   },
   getGameHistory(state) {
     return state.gameHistory
+  },
+  getLoggedInStatus(state) {
+    return state.loggedInStatus
   },
 }
 
@@ -45,6 +49,9 @@ export const mutations = {
   },
   CREATE_NEW_GAME(state, gameObject) {
     state.currentGame = gameObject
+  },
+  SET_LOGGED_IN_STATUS(state, boolean) {
+    state.loggedInStatus = boolean
   },
 }
 
@@ -89,6 +96,9 @@ export const actions = {
       basket[players[i]] = 0
     }
     */
+  },
+  setLoggedInStatus(context, boolean) {
+    context.commit('SET_LOGGED_IN_STATUS', boolean)
   },
 }
 

@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
+  <div v-else>
     <h1>game status: {{ currentGameStatus }}</h1>
-    <!-- <v-btn @click="startNewGame">Start New Game</v-btn>
-    <v-btn @click="finishCurrentGame">Finish Game</v-btn> -->
     <setup-form></setup-form>
   </div>
 </template>
@@ -19,14 +18,6 @@ export default {
   computed: {
     currentGameStatus() {
       return this.$store.getters.getCurrentGameStatus
-    },
-  },
-  methods: {
-    startNewGame() {
-      this.$store.dispatch('startNewGame')
-    },
-    finishCurrentGame() {
-      this.$store.dispatch('finishCurrentGame')
     },
   },
 }

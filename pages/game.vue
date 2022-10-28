@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
+  <div v-else>
     <section>
       <h1>{{ currentGame.course }} | {{ toDateString(currentGame.date) }}</h1>
       <div v-for="(basket, i) in currentGame.baskets" :key="i">

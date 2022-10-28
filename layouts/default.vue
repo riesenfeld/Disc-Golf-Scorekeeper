@@ -92,11 +92,23 @@ export default {
   created() {
     if (process.client) {
       // eslint-disable-next-line no-undef
-      const user = netlifyIdentity.currentUser()
+      const ntlid = netlifyIdentity
+      const user = ntlid.currentUser()
 
-      console.log(user)
-      // eslint-disable-next-line no-undef
-      console.log(netlifyIdentity)
+      ntlid.on('login', (user) => {
+        this.$store.dispatch('setLoggedInStatus', true)
+        this.$router.push('/')
+      })
+      ntlid.on('logout', (user) =>
+        this.$store.dispatch('setLoggedInStatus', false)
+      )
+
+      if (!user) {
+        this.$store.dispatch('setLoggedInStatus', false)
+        this.$router.push('/login')
+      } else {
+        this.$store.dispatch('setLoggedInStatus', true)
+      }
     }
   },
 }

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
+  <div v-else>
     <div v-for="(game, index) in gameHistory" :key="index">{{ game }}</div>
   </div>
 </template>

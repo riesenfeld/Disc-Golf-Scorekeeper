@@ -78,7 +78,8 @@
       </v-card>
     </v-col>
   </v-row> -->
-  <v-container>
+  <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
+  <v-container v-else>
     <v-row>
       <h1 v-if="currentGameStatus">A game is currently in progress.</h1>
       <v-btn v-if="!currentGameStatus" @click="startNewGame"
@@ -99,8 +100,8 @@ export default {
     title: 'Home',
   },
   computed: {
-    currentGameStatus() {
-      return this.$store.getters.getCurrentGameStatus
+    isLoggedIn() {
+      return this.$store.getters.getLoggedInStatus
     },
   },
   methods: {
