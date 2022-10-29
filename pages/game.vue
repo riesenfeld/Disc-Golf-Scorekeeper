@@ -14,7 +14,7 @@
     </section>
     <hr />
     <section>
-      <v-form v-model="formIsValid">
+      <v-form ref="form" v-model="formIsValid">
         <v-text-field
           v-model="currentBasket.basketName"
           label="Basket Name"
@@ -28,7 +28,6 @@
             :label="player"
             type="number"
             required
-            validate-on-blur
             :rules="[(value) => (!!value && value > 0) || 'Invalid input']"
           ></v-text-field>
         </div>
@@ -187,6 +186,7 @@ export default {
       const validationResult = this.validateInput()
       if (validationResult.valid) {
         this.setScore()
+        this.$refs.form.resetValidation()
         this.makeNewBasket()
       } else {
         this.validationErrorMessage = validationResult.error
