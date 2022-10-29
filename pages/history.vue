@@ -2,6 +2,7 @@
   <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
   <div v-else>
     <h2>{{ fetchedHistory }}</h2>
+    <h2>{{ baseURL }}</h2>
     <div v-for="(game, index) in gameHistory" :key="index">{{ game }}</div>
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
     // console.log(endpoint)
     return {
       fetchedHistory,
+      baseURL: $axios.defaults.baseURL,
     }
   },
   head: {
