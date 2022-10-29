@@ -99,7 +99,11 @@ export default {
   head: {
     title: 'Home',
   },
-
+  computed: {
+    currentGameStatus() {
+      return this.$store.getters.getCurrentGameStatus
+    },
+  },
   methods: {
     startNewGame() {
       if (!this.currentGameStatus) {

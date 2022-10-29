@@ -97,6 +97,9 @@ export default {
         return netlifyIdentity.currentUser()
       } else return null
     },
+    isDev() {
+      return process.env.NODE_ENV === 'development'
+    },
   },
   watch: {
     /**
@@ -104,16 +107,20 @@ export default {
      * If the Vuex store loggedInStatus is incorrect (i.e. set to true), set it to false.
      */
     $route(currentRoute) {
-      if (currentRoute.fullPath !== '/login' && !this.currentUser) {
-        if (this.$store.getters.loggedInStatus) {
-          this.$store.dispatch('setLoggedInStatus', false)
+      if (!this.isDev) {
+        if (currentRoute.fullPath !== '/login' && !this.currentUser) {
+          if (this.$store.getters.loggedInStatus) {
+            this.$store.dispatch('setLoggedInStatus', false)
+          }
+          this.$router.push('/login')
         }
-        this.$router.push('/login')
       }
     },
   },
   created() {
-    if (process.client) {
+    if (this.isDev) {
+      this.$store.dispatch('setLoggedInStatus', true)
+    } else if (process.client) {
       // eslint-disable-next-line no-undef
       const ntlid = netlifyIdentity
       const user = ntlid.currentUser()
