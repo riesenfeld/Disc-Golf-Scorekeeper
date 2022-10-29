@@ -25,7 +25,14 @@
         v-model="playerNames[index]"
         :label="'Player ' + (index + 1) + ' Name'"
         required
-        :rules="[(value) => !!value || 'Cannot be empty']"
+        :rules="[
+          (value) => !!value || 'Cannot be empty',
+          (value) =>
+            !playerNames
+              .slice(0, index)
+              .concat(playerNames.slice(index + 1))
+              .includes(value) || 'Two players cannot have the same name.',
+        ]"
       ></v-text-field>
     </section>
     <v-btn v-if="formState > 0" @click="reverseFormState">Back</v-btn>
