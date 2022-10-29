@@ -87,7 +87,55 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Disc Golf Scorekeeper',
+      // isLoggedIn: false
+      // currentRoute: this.$router.currentRoute,
     }
+  },
+  // updated() {
+  //   this.handleAuthState()
+  // },
+
+  computed: {
+    currentUser() {
+      if (process.client) {
+        // eslint-disable-next-line no-undef
+        return netlifyIdentity.currentUser()
+      } else return null
+    },
+    // currentRoute() {
+    //   return this.$router.currentRoute.fullPath
+    // },
+  },
+  watch: {
+    // currentUser(value) {
+    //   if (!value) {
+    //     this.$store.dispatch('setLoggedInStatus', false)
+    //     this.$router.push('/login')
+    //   } else {
+    //     this.$store.dispatch('setLoggedInStatus', true)
+    //   }
+    // },
+    // currentRoute(value) {
+    //   console.log('route has changed to' + value)
+    //   if (!this.currentUser) {
+    //     this.$store.dispatch('setLoggedInStatus', false)
+    //     this.$router.push('/login')
+    //   } else {
+    //     this.$store.dispatch('setLoggedInStatus', true)
+    //   }
+    // },
+    /**
+     * Route user to login page if they visit a different route while not logged in.
+     * If the Vuex store loggedInStatus is incorrect (i.e. set to true), set it to false.
+     */
+    $route(currentRoute) {
+      if (currentRoute.fullPath !== '/login' && !this.currentUser) {
+        if (this.$store.getters.loggedInStatus) {
+          this.$store.dispatch('setLoggedInStatus', false)
+        }
+        this.$router.push('/login')
+      }
+    },
   },
   created() {
     if (process.client) {
@@ -111,5 +159,24 @@ export default {
       }
     }
   },
+
+  // methods: {
+  //   handleAuthState() {
+  //     if (process.client) {
+  //       // eslint-disable-next-line no-undef
+  //       const ntlid = netlifyIdentity
+  //       const user = ntlid.currentUser()
+
+  //       if (!user) {
+  //         this.$store.dispatch('setLoggedInStatus', false)
+  //         if (this.$router.currentRoute.fullPath !== '/login') {
+  //           this.$router.push('/login')
+  //         }
+  //       } else {
+  //         this.$store.dispatch('setLoggedInStatus', true)
+  //       }
+  //     }
+  //   },
+  // },
 }
 </script>
