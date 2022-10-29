@@ -71,20 +71,29 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
+  // Nuxt env Configuration: https://nuxtjs.org/docs/directory-structure/nuxt-config#env
+  // env vars available by default on Netlify: https://docs.netlify.com/configure-builds/environment-variables/
+  env: {
+    baseURL: process.env.URL || 'http://localhost:8888',
+  },
+
   // Axios Configuration: https://axios.nuxtjs.org/options/
   axios: {
-    baseURL: 'http://localhost:8888', // Used as fallback if no runtime config is provided
+    baseURL: process.env.URL || 'http://localhost:8888', // Used as fallback if no runtime config is provided
   },
+
+  // Public (client-side) and Private (server-side) Runtime Configs
+  // https://nuxtjs.org/docs/directory-structure/nuxt-config#runtimeConfig
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.BROWSER_BASE_URL,
+      browserBaseURL: process.env.URL || 'http://localhost:8888',
     },
   },
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.BASE_URL,
+      baseURL: process.env.URL || 'http://localhost:8888',
     },
   },
 }
