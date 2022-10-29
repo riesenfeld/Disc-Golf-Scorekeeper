@@ -10,15 +10,15 @@
 export default {
   name: 'HistoryPage',
   async asyncData({ $axios }) {
-    const endpoint =
-      $axios.defaults.baseURL + '/.netlify/functions/fetch-game-history'
-    const response = await $axios.$get(endpoint)
-    // const response = await $axios.$get(
-    //   'https://starlit-horse-62457d.netlify.app/.netlify/functions/fetch-game-history'
-    // )
+    // const endpoint =
+    //   $axios.defaults.baseURL + '/.netlify/functions/fetch-game-history'
+    // const response = await $axios.$get(endpoint)
+    const response = await $axios.$get(
+      'https://starlit-horse-62457d.netlify.app/.netlify/functions/fetch-game-history'
+    )
     const fetchedHistory = response.msg
     console.log($axios.defaults.baseURL)
-    console.log(endpoint)
+    // console.log(endpoint)
     return {
       fetchedHistory,
     }
