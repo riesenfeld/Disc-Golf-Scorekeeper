@@ -14,7 +14,7 @@
     </section>
     <hr />
     <section>
-      <v-form>
+      <v-form v-model="formIsValid">
         <v-text-field
           v-model="currentBasket.basketName"
           label="Basket Name"
@@ -44,8 +44,13 @@
           label="Notes"
           type="text"
         ></v-text-field>
-        <v-btn @click="advanceToNextBasket">Next Basket</v-btn>
-        <finish-game-dialog @finish-game="finishGame"></finish-game-dialog>
+        <v-btn :disabled="!formIsValid" @click="advanceToNextBasket"
+          >Next Basket</v-btn
+        >
+        <finish-game-dialog
+          :form-is-valid="formIsValid"
+          @finish-game="finishGame"
+        ></finish-game-dialog>
       </v-form>
     </section>
     <v-snackbar v-model="errorSnackbar">
@@ -72,6 +77,7 @@ export default {
       },
       errorSnackbar: false,
       validationErrorMessage: '',
+      formIsValid: false,
     }
   },
   head: {

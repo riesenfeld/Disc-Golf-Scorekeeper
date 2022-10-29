@@ -1,7 +1,15 @@
 <template>
   <v-dialog v-model="dialog">
     <template #activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on"> Finish Game </v-btn>
+      <v-btn
+        color="primary"
+        dark
+        v-bind="attrs"
+        :disabled="!formIsValid"
+        v-on="on"
+      >
+        Finish Game
+      </v-btn>
     </template>
     <v-card>
       <v-card-title class="text-h5">Finish this game?</v-card-title>
@@ -18,6 +26,12 @@
 <script>
 export default {
   name: 'FinishGameDialog',
+  props: {
+    formIsValid: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       dialog: false,
