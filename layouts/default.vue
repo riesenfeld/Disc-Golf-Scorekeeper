@@ -114,6 +114,7 @@ export default {
           }
           this.$router.push('/login')
         }
+        this.rerouteByState()
       }
     },
   },
@@ -140,6 +141,25 @@ export default {
         this.$store.dispatch('setLoggedInStatus', true)
       }
     }
+    this.rerouteByState()
+  },
+  methods: {
+    rerouteByState() {
+      const path = this.$router.currentRoute.fullPath
+      switch (path) {
+        case '/game':
+          // If game is not set up, route away from game in progress page
+          if (!this.$store.getters.getCurrentGameStatus) {
+            this.$router.push('/')
+          }
+          break
+        case '/setup':
+          // If a game is in progress, route away from the game setup page
+          if (this.$store.getters.getCurrentGameStatus) {
+            this.$router.push('/')
+          }
+      }
+    },
   },
 }
 </script>

@@ -30,7 +30,7 @@
     </section>
     <v-btn v-if="formState > 0" @click="reverseFormState">Back</v-btn>
     <v-btn :disabled="!formValidity" @click.prevent="validateAndAdvance">{{
-      formState < 1 ? 'Next' : 'Finish'
+      formState < 1 ? 'Next' : 'Begin Game'
     }}</v-btn>
   </v-form>
 </template>

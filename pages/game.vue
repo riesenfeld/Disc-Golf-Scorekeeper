@@ -28,6 +28,7 @@
             :label="player"
             type="number"
             required
+            validate-on-blur
             :rules="[(value) => (!!value && value > 0) || 'Invalid input']"
           ></v-text-field>
         </div>
@@ -44,10 +45,17 @@
           type="text"
         ></v-text-field>
         <v-btn @click="advanceToNextBasket">Next Basket</v-btn>
-        <!-- <v-btn @click="finishGame">Finish Game</v-btn> -->
         <finish-game-dialog @finish-game="finishGame"></finish-game-dialog>
       </v-form>
     </section>
+    <v-snackbar v-model="errorSnackbar">
+      {{ validationErrorMessage }}
+      <template #action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="errorSnackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -62,6 +70,8 @@ export default {
         par: 3,
         notes: '',
       },
+      errorSnackbar: false,
+      validationErrorMessage: '',
     }
   },
   head: {
@@ -121,17 +131,72 @@ export default {
         notes: '',
       }
     },
+    validateInput() {
+      const previousBaskets = this.currentGame.baskets
+      const players = this.currentGame.players
+
+      // let errorMessage = ''
+      const validationResult = {
+        valid: false,
+        error: null,
+      }
+
+      // Basket name cannot be empty
+      if (this.currentBasket.basketName.trim().length < 1) {
+        validationResult.error = 'Basket name cannot be empty'
+        return validationResult
+      }
+      // Basket name cannot have been previously used in this game
+      for (let i = 0; i < previousBaskets.length; i++) {
+        if (previousBaskets[i].basketName === this.currentBasket.basketName) {
+          validationResult.error =
+            'Basket ' +
+            this.currentBasket.basketName +
+            ' has already been played.'
+          return validationResult
+        }
+      }
+      // No player may have a missing score or score < 1
+      for (let i = 0; i < players.length; i++) {
+        const playerScore = this.currentBasket.scores[players[i]]
+        if (!playerScore || playerScore < 1) {
+          validationResult.error =
+            'Invalid player score for player: ' + players[i]
+          return validationResult
+        }
+      }
+      // A basket must have a par value and it must be greater than 0
+      if (!this.currentBasket.par || this.currentBasket.par < 1) {
+        validationResult.error = 'Every basket must have a par of at least 1'
+        return validationResult
+      }
+      // If all checks pass
+      validationResult.valid = true
+      return validationResult
+    },
     setScore() {
       this.$store.dispatch('addBasket', this.currentBasket)
     },
     advanceToNextBasket() {
-      this.setScore()
-      this.makeNewBasket()
+      const validationResult = this.validateInput()
+      if (validationResult.valid) {
+        this.setScore()
+        this.makeNewBasket()
+      } else {
+        this.validationErrorMessage = validationResult.error
+        this.errorSnackbar = true
+      }
     },
     finishGame() {
-      this.setScore()
-      this.$store.dispatch('finishCurrentGame')
-      this.$router.push('/')
+      const validationResult = this.validateInput()
+      if (validationResult.valid) {
+        this.setScore()
+        this.$store.dispatch('finishCurrentGame')
+        this.$router.push('/')
+      } else {
+        this.validationErrorMessage = validationResult.error
+        this.errorSnackbar = true
+      }
     },
   },
 }
