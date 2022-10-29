@@ -1,8 +1,12 @@
 <template>
   <h1 v-if="!$store.getters.getLoggedInStatus">Redirecting...</h1>
   <div v-else>
-    <h2>{{ fetchedHistory }}</h2>
-    <h2>{{ baseURL }}</h2>
+    <h2>fetchedHistory: {{ fetchedHistory }}</h2>
+    <hr />
+    <h2>$axios.defaults.baseURL: {{ axiosDefaultsBaseURL }}</h2>
+    <h2>$axios.baseURL: {{ axiosBaseURL }}</h2>
+    <h2>process.env.BASE_URL: {{ processEnvBaseUrl }}</h2>
+    <h2>process.env.URL{{ netlifyURL }}</h2>
     <div v-for="(game, index) in gameHistory" :key="index">{{ game }}</div>
   </div>
 </template>
@@ -22,7 +26,10 @@ export default {
     // console.log(endpoint)
     return {
       fetchedHistory,
-      baseURL: $axios.defaults.baseURL,
+      axiosDefaultsBaseURL: $axios.defaults.baseURL,
+      axiosBaseURL: $axios.baseURL,
+      processEnvBaseUrl: process.env.BASE_URL,
+      netlifyURL: process.env.URL,
     }
   },
   head: {
