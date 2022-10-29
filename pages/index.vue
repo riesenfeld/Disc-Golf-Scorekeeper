@@ -99,11 +99,7 @@ export default {
   head: {
     title: 'Home',
   },
-  computed: {
-    isLoggedIn() {
-      return this.$store.getters.getLoggedInStatus
-    },
-  },
+
   methods: {
     startNewGame() {
       if (!this.currentGameStatus) {
