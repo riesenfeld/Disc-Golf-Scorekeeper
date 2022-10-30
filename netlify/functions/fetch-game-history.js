@@ -1,11 +1,28 @@
-// eslint-disable-next-line require-await
-exports.handler = async function () {
-  const response = {
-    msg: 'This is a message',
-  }
+import faunadb from 'faunadb'
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(response),
+const client = new faunadb.Client({
+  secret: process.env.FAUNA_KEY,
+})
+const q = faunadb.query
+
+exports.handler = async function () {
+  try {
+    const gameHistory = await client.query(
+      q.Get(q.Ref(q.Collection('dummy_data'), '346904395642831444'))
+    )
+
+    const response = {
+      msg: gameHistory,
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+    }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(error),
+    }
   }
 }
