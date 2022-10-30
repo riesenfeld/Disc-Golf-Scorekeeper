@@ -76,24 +76,4 @@ export default {
   env: {
     baseURL: process.env.URL || 'http://localhost:8888',
   },
-
-  // Axios Configuration: https://axios.nuxtjs.org/options/
-  axios: {
-    baseURL: process.env.URL || 'http://localhost:8888', // Used as fallback if no runtime config is provided
-  },
-
-  // Public (client-side) and Private (server-side) Runtime Configs
-  // https://nuxtjs.org/docs/directory-structure/nuxt-config#runtimeConfig
-
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.URL || 'http://localhost:8888',
-    },
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.URL || 'http://localhost:8888',
-    },
-  },
 }
