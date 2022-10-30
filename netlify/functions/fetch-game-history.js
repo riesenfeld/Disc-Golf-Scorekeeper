@@ -1,3 +1,4 @@
+// eslint-disable-next-line require-await
 exports.handler = async function () {
   const response = {
     msg: 'This is a message',
