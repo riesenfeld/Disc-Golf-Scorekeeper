@@ -15,13 +15,11 @@ exports.handler = async function () {
       )
     )
 
-    const response = {
-      msg: gameHistory,
-    }
+    const response = gameHistory.data.map((document) => document.data)
 
     return {
       statusCode: 200,
-      body: JSON.stringify(response),
+      body: JSON.stringify({ msg: response }),
     }
   } catch (error) {
     return {
