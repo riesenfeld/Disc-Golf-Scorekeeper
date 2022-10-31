@@ -10,7 +10,7 @@ exports.handler = async function () {
   try {
     const gameHistory = await client.query(
       q.Map(
-        q.Paginate(q.Documents(q.Collection('dummy_data'))),
+        q.Paginate(q.Documents(q.Collection('game_history'))),
         q.Lambda('documentRef', q.Get(q.Var('documentRef')))
       )
     )
