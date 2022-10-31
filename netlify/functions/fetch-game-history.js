@@ -9,7 +9,7 @@ const q = faunadb.query
 exports.handler = async function () {
   try {
     const gameHistory = await client.query(
-      q.Get(q.Ref(q.Collection('dummy_data'), '346904395642831444'))
+      q.Paginate(q.Match(q.Index('game_History')))
     )
 
     const response = {
