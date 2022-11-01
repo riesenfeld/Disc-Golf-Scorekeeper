@@ -47,7 +47,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -75,5 +75,14 @@ export default {
   // env vars available by default on Netlify: https://docs.netlify.com/configure-builds/environment-variables/
   env: {
     baseURL: process.env.URL || 'http://localhost:8888',
+  },
+
+  axios: {
+    proxy: true,
+  },
+
+  proxy: {
+    '/api/fetch-game-history':
+      process.env.URL + '/.netlify/functions/fetch-game-history',
   },
 }

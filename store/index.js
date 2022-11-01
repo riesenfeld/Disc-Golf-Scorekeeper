@@ -110,11 +110,11 @@ export const actions = {
   clearGame(context) {
     context.commit('CLEAR_GAME')
   },
-  startNewGame(context, { course, players }) {
+  startNewGame(context, { course, date, players }) {
     /** do some validation */
     const newGame = {
       course,
-      date: Date.now(),
+      date,
       players,
       baskets: [],
     }

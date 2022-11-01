@@ -89,6 +89,7 @@
         >Return to Game</v-btn
       >
       <v-btn @click="viewGameHistory">View Game History</v-btn>
+      <v-btn @click="testPost">Test Post</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -115,6 +116,14 @@ export default {
     },
     viewGameHistory() {
       this.$router.push('/history')
+    },
+    async testPost() {
+      // const endpoint = process.env.baseURL + '/.netlify/functions/post-test'
+      const endpoint = '/api/fetch-game-history'
+      const response = await this.$axios.$post(endpoint, {
+        a: 'This is a post request',
+      })
+      console.log(response)
     },
   },
 }
