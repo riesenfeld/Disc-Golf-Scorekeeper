@@ -26,12 +26,12 @@ exports.handler = async function (event) {
     )
     return {
       statusCode: 200,
-      msg: JSON.stringify(response),
+      body: JSON.stringify({ msg: response }),
     }
   } catch (error) {
     return {
       statusCode: 400,
-      msg: JSON.stringify(error),
+      body: JSON.stringify(error),
     }
   }
 }
