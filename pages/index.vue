@@ -90,6 +90,7 @@
       >
       <v-btn @click="viewGameHistory">View Game History</v-btn>
       <v-btn @click="testPost">Test Post</v-btn>
+      <v-btn @click="testHistory">Test History</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -118,11 +119,25 @@ export default {
       this.$router.push('/history')
     },
     async testPost() {
-      // const endpoint = process.env.baseURL + '/.netlify/functions/post-test'
-      const endpoint = '/api/fetch-game-history'
+      let endpoint
+
+      if (process.env.NODE_ENV === 'development') {
+        endpoint = '/api/post-test'
+      } else endpoint = process.env.baseURL + '/.netlify/functions/post-test'
       const response = await this.$axios.$post(endpoint, {
         a: 'This is a post request',
       })
+      console.log(response)
+    },
+    async testHistory() {
+      let endpoint
+
+      if (process.env.NODE_ENV === 'development') {
+        endpoint = '/api/fetch-game-history'
+      } else
+        endpoint =
+          process.env.baseURL + '/.netlify/functions/fetch-game-history'
+      const response = await this.$axios.$get(endpoint)
       console.log(response)
     },
   },

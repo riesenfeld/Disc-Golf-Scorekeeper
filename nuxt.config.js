@@ -84,5 +84,6 @@ export default {
   proxy: {
     '/api/fetch-game-history':
       process.env.URL + '/.netlify/functions/fetch-game-history',
+    '/api/post-test': process.env.URL + '/.netlify/functions/post-test',
   },
 }

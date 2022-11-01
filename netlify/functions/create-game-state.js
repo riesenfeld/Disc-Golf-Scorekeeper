@@ -7,24 +7,31 @@ const client = new faunadb.Client({
 
 const q = faunadb.query
 
-exports.handler = async function () {
+exports.handler = async function (event) {
+  const body = JSON.parse(event.body)
+
   try {
     const response = await client.query(
       q.Update(q.Ref(q.Collection('game_state'), '346983465632137812'), {
         data: {
           inProgess: true,
-          currentGame: {},
+          currentGame: {
+            course: body.course,
+            date: body.date,
+            players: body.players,
+            baskets: [],
+          },
         },
       })
     )
     return {
       statusCode: 200,
-      msg: response,
+      msg: JSON.stringify(response),
     }
   } catch (error) {
     return {
       statusCode: 400,
-      msg: error,
+      msg: JSON.stringify(error),
     }
   }
 }
