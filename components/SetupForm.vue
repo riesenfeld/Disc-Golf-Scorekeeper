@@ -60,12 +60,19 @@ export default {
         this.playerNames = new Array(parseInt(this.numberOfPlayers))
         this.formState = 1
       } else if (this.formState === 1) {
-        this.$store.dispatch('startNewGame', {
+        const newGameObject = {
           course: this.courseName,
+          date: Date.now(),
           players: this.playerNames,
-        })
-        this.formState = 2
-        this.$router.push('game')
+        }
+        try {
+          // this.$axios.$post()
+          this.$store.dispatch('startNewGame', newGameObject)
+          this.formState = 2
+          this.$router.push('game')
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     reverseFormState() {
