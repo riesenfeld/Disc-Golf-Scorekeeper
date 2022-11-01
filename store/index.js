@@ -4,6 +4,8 @@ export const state = () => ({
   currentGameStatus: false,
   gameHistory: [],
   loggedInStatus: false,
+  historyDataFetched: false,
+  error: null,
 })
 
 export const getters = {
@@ -18,6 +20,12 @@ export const getters = {
   },
   getLoggedInStatus(state) {
     return state.loggedInStatus
+  },
+  getHistoryDataFetched(state) {
+    return state.historyDataFetched
+  },
+  getError(state) {
+    return state.error
   },
 }
 
@@ -50,12 +58,43 @@ export const mutations = {
   CREATE_NEW_GAME(state, gameObject) {
     state.currentGame = gameObject
   },
+  SET_GAME_HISTORY(state, historyArray) {
+    state.gameHistory = historyArray
+  },
+  SET_HISTORY_DATA_FETCHED(state, boolean) {
+    state.historyDataFetched = boolean
+  },
   SET_LOGGED_IN_STATUS(state, boolean) {
     state.loggedInStatus = boolean
+  },
+  SET_ERROR(state, error) {
+    state.error = error
+  },
+  CLEAR_ERROR(state) {
+    state.error = null
   },
 }
 
 export const actions = {
+  /**
+   * Automatically called on server side to pre-populate the Vuex store.
+   * First arg is Vuex context, second arg would be Nuxt context
+   * More info: https://nuxtjs.org/docs/concepts/nuxt-lifecycle/
+   */
+  async nuxtServerInit(context) {
+    try {
+      const endpoint =
+        process.env.baseURL + '/.netlify/functions/fetch-game-history'
+      const response = await this.$axios.$get(endpoint)
+      context.commit('SET_GAME_HISTORY', response.msg)
+      context.commit('SET_HISTORY_DATA_FETCHED', true)
+      return true
+    } catch (error) {
+      context.commit('SET_ERROR', error)
+      context.commit('SET_HISTORY_DATA_FETCHED', false)
+      return false
+    }
+  },
   // async restoreCurrentGame() {
   //    // reach out to DB?
   // }
@@ -96,6 +135,9 @@ export const actions = {
       basket[players[i]] = 0
     }
     */
+  },
+  setGameHistory(context, payload) {
+    context.commit('SET_GAME_HISTORY', payload)
   },
   setLoggedInStatus(context, boolean) {
     context.commit('SET_LOGGED_IN_STATUS', boolean)
